@@ -2,6 +2,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+//TODO how to create a .gitignore and which files should be excluded??
+
 fun main(args: Array<String>) {
     println("Start")
 
