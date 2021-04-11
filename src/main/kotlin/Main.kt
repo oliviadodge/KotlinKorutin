@@ -1,17 +1,58 @@
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 fun main(args: Array<String>) {
-    println("Start")
+    runExampleOfSuspendingFunctions()
+}
 
-    // Start a coroutine
-    GlobalScope.launch {
-        delay(1000)
-        println("Hello")
+private fun runExampleOfSuspendingFunctions() = runBlocking { // this: CoroutineScope
+    launch {
+        hello()
     }
 
-    Thread.sleep(2000) // wait for 2 seconds
-    println("Stop")
+    launch {
+        world()
+    }
+}
+
+
+private suspend fun hello() {
+    delay(1000L)
+    println("Hello, ")
+}
+
+private suspend fun world() {
+    delay(500L)
+    println("World!")
+}
+
+private fun runExampleOfRunBlocking() = runBlocking { // this: CoroutineScope
+    launch {
+        delay(200L)
+        println("World!")
+    }
+
+    println("Hello, ")
+}
+
+
+private fun runExampleOfCoroutineScope() {
+    runBlocking { // this: CoroutineScope
+        launch {
+            delay(200L)
+            println("Task from runBlocking")
+        }
+
+        coroutineScope { // Creates a coroutine scope
+            launch {
+                delay(500L)
+                println("Task from nested launch")
+            }
+
+            delay(100L)
+            println("Task from coroutine scope") // This line will be printed before the nested launch
+        }
+
+        println("Coroutine scope is over") // This line is not printed until the nested launch completes
+    }
 }
